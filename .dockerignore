@@ -1,0 +1,6 @@
+Dockerfile
+.dockerignore
+.ash_history
+README.md
+DOCS.md
+.venv
