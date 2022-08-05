@@ -8,13 +8,11 @@
     "boot": "auto",
     "gpio": true,
     "apparmor": false,
-    "host_pid": true,
     "privileged": [
       "SYS_RAWIO"
     ],
     "devices": [
       "/dev/spidev0.0:rw",
-      "/dev/spidev0.1:rw",
       "/dev/mem:rw"
     ],
     "homeassistant_api": true,
