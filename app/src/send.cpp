@@ -16,6 +16,11 @@ int main(int argc, char** argv)
     uint16_t spi_dev = atoi(getenv("SPI_DEV"));
     uint16_t ce = atoi(getenv("CE_PIN"));
 
+    // 0 - dynamic size
+    uint16_t payload_size = atoi(getenv("PAYLOAD_SIZE"));
+    // 0 - 1mbps, 1 - 2mbps, 2 - 256kbps, 
+    uint8_t data_rate = atoi(getenv("DATA_RATE"));
+
     RF24 radio(ce, spi_dev);
 
     if (!radio.begin()) {
@@ -31,7 +36,25 @@ int main(int argc, char** argv)
         return -1;
     }
 
-    radio.setPayloadSize(32);
+    if (payload_size > 0) {
+        radio.setPayloadSize(payload_size);
+    } else {
+        radio.enableDynamicPayloads();
+    }
+
+    switch (data_rate)
+    {
+        case 0:
+            radio.setDataRate(RF24_1MBPS);
+            break;
+        case 1:
+            radio.setDataRate(RF24_2MBPS);
+            break;
+        case 2:
+            radio.setDataRate(RF24_250KBPS);
+            break;
+    }
+
     radio.setPALevel(RF24_PA_LOW);
     send(radio, tx_address, message);
     return 0;

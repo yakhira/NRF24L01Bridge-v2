@@ -29,7 +29,9 @@ Add-on configuration:
 "SPI_DEV": 0,
 "MQTT_READ_TOPIC": "nrf24/read",
 "MQTT_WRITE_TOPIC": "nrf24/write",
-"RX_ADDRESS": "1Node", 
+"RX_ADDRESS": "1Node",
+"PAYLOAD_SIZE": 0,
+"DATA_RATE": 2
 ```
 
 MQTT_READ_TOPIC - topic to recieve message via NRF24
@@ -38,9 +40,13 @@ MQTT_WRITE_TOPIC - topic to send message via NRF24
 
 RX address: 1Node
 
+PAYLOAD_SIZE: 0 - dynamic, 8 - 8bit, 16 - 16bit, 32 - 32bit
+
+DATA_RATE: 0 - 1mbps, 1 - 2mbps, 2 - 256kbps
+
 ## Example MQTT message
 
-client_address: "text"
+3Node: "text"
 
 ## Support
 

@@ -24,13 +24,17 @@
       "spi_dev": 0,
       "mqtt_read_topic": "nrf24/read",
       "mqtt_write_topic": "nrf24/write",
-      "rx_address": "1Node"
+      "rx_address": "1Node",
+      "payload_size": 0,
+      "data_rate": "2"
     },
     "schema": {
       "ce_pin": "int",
       "spi_dev": "int",
       "mqtt_read_topic": "str",
       "mqtt_write_topic": "str",
-      "rx_address": "str"
+      "rx_address": "str",
+      "payload_size": "int",
+      "data_rate": "int"
     }
   }
