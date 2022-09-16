@@ -6,18 +6,18 @@
 
 using namespace std;
 
-bool detailsShown = false;
-void receive(RF24 radio, uint8_t *rx_address, bool dynamic_size);
+void receive(RF24 radio, bool dynamic_payload);
 
 int main(int argc, char** argv)
 {
     uint16_t spi_dev = atoi(getenv("SPI_DEV"));
     uint16_t ce = atoi(getenv("CE_PIN"));
+
     char *rx_address = getenv("RX_ADDRESS");
 
     // 0 - dynamic size
     uint16_t payload_size = atoi(getenv("PAYLOAD_SIZE"));
-    bool dynamic_size = false;
+    bool dynamic_payload = false;
     // 0 - 1mbps, 1 - 2mbps, 2 - 256kbps
     uint8_t data_rate = atoi(getenv("DATA_RATE"));
     uint8_t _rx_address[6];
@@ -31,12 +31,12 @@ int main(int argc, char** argv)
         return 0;
     }
 
+    radio.openReadingPipe(1, _rx_address); 
+
     if (payload_size > 0) {
         radio.setPayloadSize(payload_size);
-        dynamic_size = false;
     } else {
         radio.enableDynamicPayloads();
-        dynamic_size = true;
     }
 
     radio.setPALevel(RF24_PA_LOW);
@@ -53,32 +53,32 @@ int main(int argc, char** argv)
             radio.setDataRate(RF24_250KBPS);
             break;
     }
-    receive(radio, _rx_address, dynamic_size);
+    if (argc == 2) {
+        if (strcmp(argv[1], "info") == 0) {
+            radio.startListening();
+            radio.printPrettyDetails();
+            return 0;
+        }
+    }
+    receive(radio, dynamic_payload);
     return 0;
 }
 
-void receive(RF24 radio, uint8_t *rx_address, bool dynamic_size)
+void receive(RF24 radio, bool dynamic_payload)
 {
-    radio.openReadingPipe(1, rx_address); 
+    char payload[32];
     uint8_t bytes = radio.getPayloadSize();
 
-    if (dynamic_size) {
-        bytes = radio.getDynamicPayloadSize();
-    }
-
-    char payload[bytes];
-
     radio.startListening(); 
-
-    if (!detailsShown) {
-        radio.printPrettyDetails();
-    }
 
     cout << "----START----" << endl;
 
     while (true) {
         uint8_t pipe;
         if (radio.available(&pipe)) {
+            if (dynamic_payload) {
+                bytes = radio.getDynamicPayloadSize();
+            }
             payload[bytes] = 0;
             radio.read(&payload, bytes);
             cout << payload << endl;

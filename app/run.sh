@@ -21,6 +21,8 @@ RECEIVER=/app/bin/receive
 SENDER=/app/bin/send
 START=0
 
+$RECEIVER info
+
 start_rf_listening() {
     while read -r line;
     do
