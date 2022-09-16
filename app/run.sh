@@ -28,7 +28,7 @@ start_rf_listening() {
     do
         echo $line
 
-        if [ "$line" == "----START----" ];
+        if [ "$line" == "----LISTENING----" ];
         then
             START=1
         else

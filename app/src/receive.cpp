@@ -71,7 +71,7 @@ void receive(RF24 radio, bool dynamic_payload)
 
     radio.startListening(); 
 
-    cout << "----START----" << endl;
+    cout << "----LISTENING----" << endl;
 
     while (true) {
         uint8_t pipe;
