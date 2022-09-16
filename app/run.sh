@@ -32,7 +32,7 @@ start_rf_listening() {
         else
             if [ "$START" == 1 ];
             then
-                mosquitto_pub -h $MQTT_HOST -u $MQTT_USER  -P $MQTT_PASSWORD -t $MQTT_WRITE_TOPIC -m "$message"
+                mosquitto_pub -h $MQTT_HOST -u $MQTT_USER  -P $MQTT_PASSWORD -t $MQTT_READ_TOPIC -m "$message"
             fi
         fi
     done < <($RECEIVER)
