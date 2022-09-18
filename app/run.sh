@@ -8,6 +8,7 @@ export CE_PIN=$(jq --raw-output ".ce_pin" $CONFIG_PATH)
 
 export MQTT_READ_TOPIC=$(jq --raw-output ".mqtt_read_topic" $CONFIG_PATH)
 export MQTT_WRITE_TOPIC=$(jq --raw-output ".mqtt_write_topic" $CONFIG_PATH)
+export MQTT_STATUS_TOPIC=$(jq --raw-output ".mqtt_status_topic" $CONFIG_PATH)
 export MQTT_HOST=$(bashio::services mqtt "host")
 export MQTT_USER=$(bashio::services mqtt "username")
 export MQTT_PASSWORD=$(bashio::services mqtt "password")
@@ -26,17 +27,8 @@ $RECEIVER info
 start_rf_listening() {
     while read -r line;
     do
-        echo $line
-
-        if [ "$line" == "----LISTENING----" ];
-        then
-            START=1
-        else
-            if [ "$START" == 1 ];
-            then
-                mosquitto_pub -h $MQTT_HOST -u $MQTT_USER  -P $MQTT_PASSWORD -t $MQTT_READ_TOPIC -m "$message"
-            fi
-        fi
+        echo "[$(date)] $line" | xargs
+        mosquitto_pub -h $MQTT_HOST -u $MQTT_USER  -P $MQTT_PASSWORD -t $MQTT_READ_TOPIC -m "$line"
     done < <($RECEIVER)
 }
 stop_rf_listening() {
@@ -47,9 +39,14 @@ start_mqtt_listening() {
     while read -r message;
     do
         stop_rf_listening
-        TX_ADDRESS=$(echo $message | cut -d ':' -f 1)
-        TEXT=$(echo $message | cut -d ':' -f 2)
-        $SENDER $TX_ADDRESS $TEXT
+
+        TX_ADDRESS=$(echo $message | cut -d ':' -f 1 | xargs)
+        TEXT=$(echo $message | cut -d ':' -f 2 | xargs)
+        STATUS=$($SENDER $TX_ADDRESS $TEXT)
+
+        echo "[$(date)] Transmission message $TEXT to address $TX_ADDRESS $STATUS!"
+        mosquitto_pub -h $MQTT_HOST -u $MQTT_USER  -P $MQTT_PASSWORD -t $MQTT_STATUS_TOPIC -m "$TX_ADDRESS:$TEXT:$STATUS"
+
         start_rf_listening &
     done < <(mosquitto_sub -h $MQTT_HOST -u $MQTT_USER -P $MQTT_PASSWORD -t $MQTT_WRITE_TOPIC)
 }

@@ -24,6 +24,7 @@
       "spi_dev": 0,
       "mqtt_read_topic": "nrf24/read",
       "mqtt_write_topic": "nrf24/write",
+      "mqtt_status_topic": "nrf24/status",
       "rx_address": "1Node",
       "payload_size": 0,
       "data_rate": "2"
@@ -33,6 +34,7 @@
       "spi_dev": "int",
       "mqtt_read_topic": "str",
       "mqtt_write_topic": "str",
+      "mqtt_status_topic": "str",
       "rx_address": "str",
       "payload_size": "int",
       "data_rate": "int"

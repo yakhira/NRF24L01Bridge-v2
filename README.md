@@ -31,6 +31,7 @@ Add-on configuration:
 "SPI_DEV": 0,
 "MQTT_READ_TOPIC": "nrf24/read",
 "MQTT_WRITE_TOPIC": "nrf24/write",
+"MQTT_STATUS_TOPIC": "nrf24/status",
 "RX_ADDRESS": "1Node",
 "PAYLOAD_SIZE": 0,
 "DATA_RATE": 2
@@ -39,6 +40,8 @@ Add-on configuration:
 MQTT_READ_TOPIC - topic to recieve message via NRF24
 
 MQTT_WRITE_TOPIC - topic to send message via NRF24
+
+MQTT_STATUS_TOPIC - topic of send status via NRF24
 
 RX address: 1Node
 

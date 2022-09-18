@@ -69,10 +69,10 @@ void send(RF24 radio, uint8_t *tx_address, char *message)
     bool report = radio.write(message, strlen(message));
 
     if (report) {
-        cout << "Transmission message " << message << " to address " << tx_address << " successful!" << endl;
+        cout << "successful" << endl;
     }
     else {
-        cout << "Transmission to address " << tx_address << " failed or timed out" << endl;
+        cout << "failed" << endl;
     }
 }
 
