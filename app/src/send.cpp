@@ -1,10 +1,12 @@
 #include <ctime>      
 #include <iostream>   
 #include <string>     
-#include <time.h>
+#include <unistd.h>
 #include <RF24/RF24.h>
 
 using namespace std;
+
+#define MAX_RETRIES 20
 
 void send(RF24 radio, uint8_t *tx_address, char *message);
 
@@ -66,13 +68,19 @@ void send(RF24 radio, uint8_t *tx_address, char *message)
     radio.stopListening(); 
     //radio.printDetails();
 
-    bool report = radio.write(message, strlen(message));
+    for (unsigned int i = 0; i <= MAX_RETRIES; i++ ){
+        bool report = radio.write(message, strlen(message));
 
-    if (report) {
-        cout << "successful" << endl;
-    }
-    else {
-        cout << "failed" << endl;
+        if (report) {
+            cout << "successful" << endl;
+            break;
+        }
+        else {
+            if (i >= MAX_RETRIES) {
+                cout << "failed" << endl;
+            }
+            usleep(100);
+        }
     }
 }
 
