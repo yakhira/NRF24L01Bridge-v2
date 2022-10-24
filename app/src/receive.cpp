@@ -15,7 +15,6 @@ int main(int argc, char** argv)
 
     // 0 - dynamic size
     uint16_t payload_size = atoi(getenv("PAYLOAD_SIZE"));
-    bool dynamic_payload = false;
     // 0 - 1mbps, 1 - 2mbps, 2 - 256kbps
     uint8_t data_rate = atoi(getenv("DATA_RATE"));
     uint8_t _rx_address[6];
@@ -58,11 +57,11 @@ int main(int argc, char** argv)
             return 0;
         }
     }
-    receive(radio, dynamic_payload);
+    receive(radio, payload_size);
     return 0;
 }
 
-void receive(RF24 radio, bool dynamic_payload)
+void receive(RF24 radio, uint16_t payload_size)
 {
     char payload[32];
     uint8_t bytes = radio.getPayloadSize();
@@ -72,7 +71,7 @@ void receive(RF24 radio, bool dynamic_payload)
     while (true) {
         uint8_t pipe;
         if (radio.available(&pipe)) {
-            if (dynamic_payload) {
+            if (payload_size == 0) {
                 bytes = radio.getDynamicPayloadSize();
             }
             payload[bytes] = 0;
