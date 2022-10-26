@@ -1,10 +1,10 @@
-   #include <iostream>   
+#include <iostream>
 #include <string>     
 #include <RF24/RF24.h>
 
 using namespace std;
 
-void receive(RF24 radio, bool dynamic_payload);
+void receive(RF24 radio, uint16_t payload_size);
 
 int main(int argc, char** argv)
 {
@@ -74,8 +74,8 @@ void receive(RF24 radio, uint16_t payload_size)
             if (payload_size == 0) {
                 bytes = radio.getDynamicPayloadSize();
             }
-            payload[bytes] = 0;
             radio.read(&payload, bytes);
+            payload[bytes] = 0;
             cout << payload << endl;
         }
     }
