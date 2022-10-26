@@ -27,7 +27,7 @@ $RECEIVER info
 start_rf_listening() {
     while read -r line;
     do
-        echo "[$(date)] $line" | xargs
+        echo "[$(date)] Received message $line" | xargs
         mosquitto_pub -h $MQTT_HOST -u $MQTT_USER  -P $MQTT_PASSWORD -t $MQTT_READ_TOPIC -m "$line"
     done < <($RECEIVER)
 }
