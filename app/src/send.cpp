@@ -6,7 +6,8 @@
 
 using namespace std;
 
-#define MAX_RETRIES 20
+#define WRITE_INTERVAL 500
+#define TX_STANDBY_INTERVAL 5000
 
 void send(RF24 radio, uint8_t *tx_address, char *message);
 
@@ -58,6 +59,7 @@ int main(int argc, char** argv)
     }
 
     radio.setPALevel(RF24_PA_LOW);
+
     send(radio, tx_address, message);
     return 0;
 }
@@ -68,19 +70,13 @@ void send(RF24 radio, uint8_t *tx_address, char *message)
     radio.stopListening(); 
     //radio.printDetails();
 
-    for (unsigned int i = 0; i <= MAX_RETRIES; i++ ){
-        bool report = radio.write(message, strlen(message));
+    radio.writeBlocking(message, strlen(message), WRITE_INTERVAL);
 
-        if (report) {
-            cout << "successful" << endl;
-            break;
-        }
-        else {
-            if (i >= MAX_RETRIES) {
-                cout << "failed" << endl;
-            }
-            usleep(100);
-        }
+    if (radio.txStandBy(TX_STANDBY_INTERVAL)) {
+        cout << "successful" << endl;
+    }
+    else {
+        cout << "failed" << endl;
     }
 }
 
