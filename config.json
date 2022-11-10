@@ -26,6 +26,7 @@
       "mqtt_write_topic": "nrf24/write",
       "mqtt_status_topic": "nrf24/status",
       "rx_address": "1Node",
+      "tx_standby_interval": 5000,
       "payload_size": 0,
       "data_rate": "2"
     },
@@ -36,6 +37,7 @@
       "mqtt_write_topic": "str",
       "mqtt_status_topic": "str",
       "rx_address": "str",
+      "tx_standby_interval": "int",
       "payload_size": "int",
       "data_rate": "int"
     }

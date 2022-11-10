@@ -7,7 +7,6 @@
 using namespace std;
 
 #define WRITE_INTERVAL 500
-#define TX_STANDBY_INTERVAL 5000
 
 void send(RF24 radio, uint8_t *tx_address, char *message);
 
@@ -66,13 +65,15 @@ int main(int argc, char** argv)
 
 void send(RF24 radio, uint8_t *tx_address, char *message)
 {
+    uint32_t tx_standby_interval = atoi(getenv("TX_STANDBY_INTERVAL"));
+
     radio.openWritingPipe(tx_address); 
     radio.stopListening(); 
     //radio.printDetails();
 
     radio.writeBlocking(message, strlen(message), WRITE_INTERVAL);
 
-    if (radio.txStandBy(TX_STANDBY_INTERVAL)) {
+    if (radio.txStandBy(tx_standby_interval)) {
         cout << "successful" << endl;
     }
     else {

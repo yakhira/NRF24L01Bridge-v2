@@ -15,6 +15,7 @@ export MQTT_PASSWORD=$(bashio::services mqtt "password")
 
 export RX_ADDRESS=$(jq --raw-output ".rx_address" $CONFIG_PATH)
 
+export TX_STANDBY_INTERVAL=$(jq --raw-output ".tx_standby_interval" $CONFIG_PATH)
 export PAYLOAD_SIZE=$(jq --raw-output ".payload_size" $CONFIG_PATH)
 export DATA_RATE=$(jq --raw-output ".data_rate" $CONFIG_PATH)
 

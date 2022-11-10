@@ -31,6 +31,7 @@ Add-on configuration:
 "MQTT_WRITE_TOPIC": "nrf24/write",
 "MQTT_STATUS_TOPIC": "nrf24/status",
 "RX_ADDRESS": "1Node",
+"TX_STANDBY_INTERVAL": 5000,
 "PAYLOAD_SIZE": 0,
 "DATA_RATE": 2
 ```
@@ -40,6 +41,8 @@ MQTT_READ_TOPIC - topic to recieve message via NRF24
 MQTT_WRITE_TOPIC - topic to send message via NRF24
 
 MQTT_STATUS_TOPIC - topic of send status via NRF24
+
+TX_STANDBY_INTERVAL - interval during retries, default 5000ms
 
 RX address: 1Node
 
