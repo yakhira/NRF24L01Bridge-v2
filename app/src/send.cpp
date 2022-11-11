@@ -6,7 +6,7 @@
 
 using namespace std;
 
-#define WRITE_INTERVAL 500
+#define WRITE_INTERVAL 1000
 
 void send(RF24 radio, uint8_t *tx_address, char *message);
 
