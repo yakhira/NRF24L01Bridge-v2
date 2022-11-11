@@ -58,4 +58,6 @@ DATA_RATE: 0 - 1mbps, 1 - 2mbps, 2 - 256kbps
 
 ## Connection
 
+https://github.com/yakhira/NRF24L01Bridge-v2/blob/master/Rpi_nrf24l01.png
+
 ![](Rpi_nrf24l01.png)

@@ -3,6 +3,7 @@
     "version": "2.0",
     "slug": "nrf24l01-bridge-v2",
     "description": "Bridge for NRF24 network!",
+    "url": "https://github.com/yakhira/NRF24L01Bridge-v2",
     "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
     "startup": "before",
     "boot": "auto",
