@@ -1,6 +1,6 @@
 # Home Assistant Add-on: NRF24L01Bridge-v2
 
-This addon tested with Raspberry PI 3
+This addon tested with Raspberry PI 3 32bit, Raspberry PI 4 64bit
 
 ## Installation
 
